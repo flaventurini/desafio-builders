@@ -19,5 +19,5 @@ else
     
 fi
 
-# gcloud auth login --cred-file=/app-builders/serviceaccount.yaml -y
+gcloud auth login --cred-file=/app-builders/serviceaccount.yaml -y
 gsutil cp -n /logs-app/*.txt gs://bucket-devsecops-builders

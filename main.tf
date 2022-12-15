@@ -45,6 +45,6 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
-  metadata_startup_script = "sudo apt-get update && sudo apt-get install -y && sudo apt install git-all -y && sudo apt-get install ca-certificates curl gnupg lsb-release -y sudo mkdir /logs-app && sudo mkdir /app-builders && sudo git clone https://github.com/flaventurini/desafio-builders.git /app-builders && sudo chmod u+x /app-builders/install_docker.sh && cd /app-builders/install_docker.sh && ./install_docker.sh && gcloud auth login --cred-file=${file(var.credentials_file)} -y && sudo chmod u+x /app-builders/app/exec_app.sh && sudo crontab /app-builders/app/crontab.txt"
-
+  metadata_startup_script = file("startup.sh")
+  
 }
