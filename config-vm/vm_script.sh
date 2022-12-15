@@ -25,5 +25,6 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 echo "Criando pasta de Logs..."
 
 mkdir /logs-app
+sudo chmod u+x ~/desafio-builders/app/exec_app.sh
 
 echo "Pronto!"
