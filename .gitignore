@@ -4,3 +4,5 @@ cloudbuild.yaml
 outputs.tf
 /.terraform
 /deploy-gitlab
+startup.sh
+*.docx
