@@ -3,4 +3,3 @@ serviceaccount.yaml
 cloudbuild.yaml
 outputs.tf
 /.terraform
-/app
