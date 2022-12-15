@@ -7,7 +7,7 @@ if [ $(docker ps -q -f name=app-html-builders -f status=running) ]; then
 
 else
     
-    sudo docker build ~/desafio-builders/app/ -t app-html-builders
+    sudo docker build /app-builders/desafio-builders/app -t app-html-builders
     docker run --name app-html-builders -it app-html-builders
 
     current_time=$(date +%d-%m-%Y_%H-%M)

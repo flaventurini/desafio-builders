@@ -1,0 +1,1 @@
+@hourly /app-builders/desafio-builders/app/exec_app.sh

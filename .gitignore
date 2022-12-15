@@ -3,3 +3,4 @@ serviceaccount.yaml
 cloudbuild.yaml
 outputs.tf
 /.terraform
+/deploy-gitlab

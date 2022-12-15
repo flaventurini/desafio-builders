@@ -43,4 +43,7 @@ resource "google_compute_instance" "vm_instance" {
 
     }
   }
+
+  metadata_startup_script = "sudo apt-get update && sudo apt-get install -y && sudo apt install git-all && sudo apt-get install ca-certificates curl gnupg lsb-release && sudo mkdir -p /etc/apt/keyrings && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && echo 'deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin && mkdir /logs-app && mkdir /app-builders && sudo git clone https://github.com/flaventurini/desafio-builders.git /app-builders && sudo chmod u+x /app-builders/desafio-builders/app/exec_app.sh && sudo crontab /app-builders/desafio-builders/app/crontab.txt"
+
 }
