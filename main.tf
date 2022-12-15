@@ -19,17 +19,13 @@ resource "random_id" "bucket_prefix" {
 }
 
 resource "google_storage_bucket" "log_devsecops_builders" {
-  name          = "${random_id.bucket_prefix.hex}-devsecops-builders"
+  name          = "bucket-devsecops-builders"
   project = var.project_id
   location      = "US"
   storage_class = "COLDLINE"
 
   uniform_bucket_level_access = true
 }
-
-/*resource "google_compute_network" "vpc_network" {
-  name = var.network_name
-}*/
 
 resource "google_compute_instance" "vm_instance" {
   name         = "fventurini-devsecops-builders"
@@ -47,9 +43,4 @@ resource "google_compute_instance" "vm_instance" {
 
     }
   }
-/*  network_interface {
-    network = google_compute_network.vpc_network.name
-    access_config {
-    }
-  }*/
 }
