@@ -1,1 +1,2 @@
-@hourly /app-builders/desafio-builders/app/exec_app.sh
+# run app every hour of every day
+@hourly /bin/sh sudo /app-builders/app/exec_app.sh
