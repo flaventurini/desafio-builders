@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 sudo apt-get update && sudo apt-get install -y
 sudo apt install git-all -y
 sudo apt-get install ca-certificates curl gnupg lsb-release -y 
