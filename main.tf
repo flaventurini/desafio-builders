@@ -14,10 +14,6 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
-resource "random_id" "bucket_prefix" {
-  byte_length = 8
-}
-
 resource "google_storage_bucket" "log_devsecops_builders" {
   name          = "bucket-devsecops-builders"
   project = var.project_id
@@ -26,23 +22,6 @@ resource "google_storage_bucket" "log_devsecops_builders" {
   force_destroy = true
 
   uniform_bucket_level_access = true
-
-  metadata = {
-    startup-script = <<-EOF
-    sudo apt-get update && sudo apt-get install -y
-    sudo apt install git-all -y
-    sudo apt-get install ca-certificates curl gnupg lsb-release -y 
-    sudo mkdir /logs-app && sudo mkdir /app-builders 
-    sudo git clone https://github.com/flaventurini/desafio-builders.git /app-builders 
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
-    sudo chmod u+x /app-builders/app/exec_app.sh
-    sudo crontab /app-builders/app/crontab.txt
-    EOF
-  }
 }
 
 resource "google_compute_instance" "vm_instance" {
