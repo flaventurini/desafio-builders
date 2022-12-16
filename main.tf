@@ -62,7 +62,7 @@ resource "google_storage_bucket" "log_devsecops_builders" {
     default_kms_key_name = google_kms_crypto_key.key.id
   }
 
-  depends_on = [google_kms_crypto_key_iam_binding.binding]
+  depends_on = [google_kms_crypto_key_iam_binding.crypto_key]
 }
 
 resource "google_compute_instance" "vm_instance" {
