@@ -31,6 +31,7 @@ Para executar o projeto, você vai precisar:
 * Clique em "Adicionar chaves -> Criar nova chave"
 * Deixe o tipo de chave como JSON, clique em "Criar" e faça o download do arquivo para o seu computador.
 
+----------------------------------------------------------------
 ### Instalando a VM e o Bucket com Terraform
 
 Para executar o código Terraform para criação da VM e do Bucket, você vai precisar usar um Shell. Pela facilidade de uso, eu recomendo o uso do [Cloud Shell](https://shell.cloud.google.com/?show=ide%2Cterminal) da Google.
@@ -57,14 +58,14 @@ Será necessário alterar o ID do Projeto dentro do arquivo de "variables.tf". F
 # altere o ID do Projeto nessa parte do código. O nome do seu projeto deve estar entre aspas após o "default"
 $ vi variables.tf
 
-```
   variable "project_id" {
     description = "Id do Projeto"
     type        = string
     default     = "teste-devsecops-builders" // substituir pelo id do projeto criado no GCP
   }
 
-
+```
+  
 Uma vez copiada a chave JSON para dentro do arquivo "serviceaccount.yaml" e alterada a variável "project_id", é possível dar início a criação da VM e do Bucket via terraform:
 
 ```bash
@@ -75,6 +76,7 @@ $ terraform init && terraform apply -auto-approve
 
 Aguarde alguns minutos após a conclusão da criação da VM para dar continuidade para a próxima etapa.
 
+----------------------------------------------------------------
 ### Configurando a autenticação do Gcloud CLI na VM
 
 Após a configuração da VM e do Bucket via Terraform, criada a VM, vá até o [Painel das Instâncias do Compute Engine](https://console.cloud.google.com/compute/instances). Se todo o procedimento anterior rodou conforme o esperado, você deve observar que a máquina irá aparecer na listagem do painel. 
@@ -134,7 +136,7 @@ $ ./exec_app.sh
 $ ./bucket.sh
 
 ```
-
+----------------------------------------------------------------
 ### Destruindo a VM e o Bucket
 
 Caso você tenha fechado a janela do Cloud Shell usada para criação da VM e do Bucket, será necessário abrí-la novamente.
