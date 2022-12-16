@@ -47,12 +47,17 @@ resource "google_kms_crypto_key" "key" {
 
 data "google_iam_policy" "admin-builders" {
   binding {
-    role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+    role = "roles/editor"
 
     members = [
       "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
     ]
   }
+}
+
+resource "google_project_iam_policy" "project" {
+  project     = var.project_id
+  policy_data = data.google_iam_policy.admin-builders.policy_data
 }
 
 resource "google_project_iam_binding" "project-builders" {
