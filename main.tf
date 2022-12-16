@@ -45,6 +45,24 @@ resource "google_kms_crypto_key" "key" {
   }
 }
 
+data "google_iam_policy" "admin-builders" {
+  binding {
+    role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+    members = [
+      "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com",
+      "serviceAccount:${var.project_id}@${var.project_id}.iam.gserviceaccount.com",
+      "serviceAccount:${var.project_id}@cloudservices.gserviceaccount.com",
+      "serviceAccount:${var.project_id}@cloudbuild.gserviceaccount.com",
+    ]
+  }
+}
+
+resource "google_kms_crypto_key_iam_policy" "crypto_key" {
+  crypto_key_id = google_kms_crypto_key.key.id
+  policy_data = data.google_iam_policy.admin-builders.policy_data
+}
+
 resource "google_kms_crypto_key_iam_binding" "crypto_key" {
   crypto_key_id = google_kms_crypto_key.key.id
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
@@ -52,6 +70,7 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
      "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com",
      "serviceAccount:${var.project_id}@${var.project_id}.iam.gserviceaccount.com",
      "serviceAccount:${var.project_id}@cloudservices.gserviceaccount.com",
+     "serviceAccount:${var.project_id}@cloudbuild.gserviceaccount.com",
   ]
 }
 
