@@ -25,7 +25,7 @@ resource "google_storage_bucket" "log_devsecops_builders" {
 }
 
 resource "google_compute_instance" "vm_instance" {
-  name         = "fventurini-devsecops-builders"
+  name         = "compute-devsecops-builders"
   machine_type = "e2-small"
   metadata = {
     startup-script = <<-EOF

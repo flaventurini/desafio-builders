@@ -1,5 +1,5 @@
 variable "credentials_file" {
-  description = "Id do Projeto"
+  description = "Credenciais do Projeto"
   type        = string
   default     = "serviceaccount.yaml"
 }
@@ -7,7 +7,7 @@ variable "credentials_file" {
 variable "project_id" {
   description = "Id do Projeto"
   type        = string
-  default     = "fventurini-devsecops-builders" // substituir pelo id do projeto criado no GCP
+  default     = "teste-devsecops-builders" // substituir pelo id do projeto criado no GCP
 }
 
 variable "network_name" {
@@ -16,7 +16,7 @@ variable "network_name" {
   default     = "terraform-network"
 }
 variable "region" {
-  description = "Region for the Compute Engine and KMS key"
+  description = "Região do Compute Engine"
   type = string
   default = "us-central1"
 }

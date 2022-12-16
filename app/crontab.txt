@@ -1,8 +1,5 @@
 # run app every hour of every day
 @hourly /bin/sh /app-builders/app/exec_app.sh
 
-# run app every minute of every day - trial
-* * * * * /bin/sh /app-builders/app/exec_app.sh 
-
 # save txt logs to GCP bucket
-*/20 * * * * /app/builders/app/bucket.sh /logs-app/ gs://bucket-devsecops-builders
+*/30 * * * * /app/builders/app/bucket.sh /logs-app gs://bucket-devsecops-builders

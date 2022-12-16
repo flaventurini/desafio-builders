@@ -8,3 +8,4 @@ startup.sh
 *.docx
 docker-compose.yml
 crypto_config.tf
+app/json_key.yaml
