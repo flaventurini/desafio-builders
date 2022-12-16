@@ -50,12 +50,18 @@ data "google_iam_policy" "admin-builders" {
     role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
 
     members = [
-      "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com",
-      "serviceAccount:${var.project_id}@${var.project_id}.iam.gserviceaccount.com",
-      "serviceAccount:${var.project_id}@cloudservices.gserviceaccount.com",
-      "serviceAccount:${var.project_id}@cloudbuild.gserviceaccount.com",
+      "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
     ]
   }
+}
+
+resource "google_project_iam_binding" "project-builders" {
+  project = var.project_id
+  role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = [
+    "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
+  ]
 }
 
 resource "google_kms_crypto_key_iam_policy" "crypto_key" {
@@ -67,10 +73,7 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
   crypto_key_id = google_kms_crypto_key.key.id
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
   members       = [
-     "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com",
-     "serviceAccount:${var.project_id}@${var.project_id}.iam.gserviceaccount.com",
-     "serviceAccount:${var.project_id}@cloudservices.gserviceaccount.com",
-     "serviceAccount:${var.project_id}@cloudbuild.gserviceaccount.com",
+     "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
   ]
 }
 
