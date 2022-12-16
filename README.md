@@ -14,13 +14,13 @@ Nesta VM, foi criada uma aplicação simples em HTML, que irá subir e ser execu
 
 Para executar o projeto, você vai precisar:
 
-1) Criar um projeto no Painel do GCP:
+(1) Criar um projeto no Painel do GCP:
 * [Criar Projeto](https://console.cloud.google.com/projectcreate)
 
-2) Dentro do projeto anteriormente criado, você vai precisar habilitar a API do Compute Engine, para criação da VM via código:
+(2) Dentro do projeto anteriormente criado, você vai precisar habilitar a API do Compute Engine, para criação da VM via código:
 * [Habilitar API Compute Engine](https://console.developers.google.com/apis/library/compute.googleapis.com)
 
-3) Criar uma [conta de serviço](https://console.cloud.google.com/apis/credentials/serviceaccountkey) e fazer o download da chave JSON:
+(3) Criar uma [conta de serviço](https://console.cloud.google.com/apis/credentials/serviceaccountkey) e fazer o download da chave JSON:
 * Selecione o projeto criado anteriormente;
 * Clique em "Criar conta de serviço" no topo da página;
 * Dê qualquer nome que desejar e clique em "Criar";
