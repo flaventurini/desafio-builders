@@ -10,8 +10,44 @@ provider "google" {
   credentials = "${file(var.credentials_file)}"
   
   project = var.project_id
-  region  = "us-central1"
+  region  = var.region
   zone    = "us-central1-c"
+}
+
+data "google_project" "project" {
+  project_id = var.project_id
+  number = var.project_number
+}
+
+output "project_number" {
+  value = data.google_project.project.number
+}
+
+resource "google_kms_key_ring" "keyring" {
+  name = var.ring_name
+  location = var.region
+}
+
+resource "google_kms_crypto_key" "key" {
+  name = var.key_name
+  key_ring = google_kms_key_ring.keyring.id
+  rotation_period = var.rotation_period
+  
+  version_template {
+    algorithm = var.algorithm
+  }
+  
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+resource "google_kms_crypto_key_iam_binding" "crypto_key" {
+  crypto_key_id = google_kms_crypto_key.key.id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  members       = [
+     "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
+  ]
 }
 
 resource "google_storage_bucket" "log_devsecops_builders" {
@@ -22,6 +58,12 @@ resource "google_storage_bucket" "log_devsecops_builders" {
   force_destroy = true
 
   uniform_bucket_level_access = true
+
+  encryption {
+    default_kms_key_name = google_kms_crypto_key.key.id
+  }
+
+  depends_on = [google_kms_crypto_key_iam_binding.binding]
 }
 
 resource "google_compute_instance" "vm_instance" {
@@ -41,11 +83,14 @@ resource "google_compute_instance" "vm_instance" {
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
     sudo chmod u+x /app-builders/app/exec_app.sh
     sudo chmod u+x /app-builders/app/bucket.sh
+    crontab /app-builders/app/crontab.txt
     sudo touch /app-builders/serviceaccount.yaml
     EOF
   }
 
   boot_disk {
+
+    kms_key_self_link = google_kms_crypto_key.key.id
     initialize_params {
       image = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20221206"
     }
