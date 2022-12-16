@@ -6,3 +6,4 @@ outputs.tf
 /deploy-gitlab
 startup.sh
 *.docx
+docker-compose.yml
