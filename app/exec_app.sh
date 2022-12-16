@@ -18,5 +18,3 @@ else
     sudo docker rm app-html-builders
     
 fi
-
-gsutil cp -n /logs-app/*.txt gs://bucket-devsecops-builders

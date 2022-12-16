@@ -2,4 +2,7 @@
 @hourly /bin/sh /app-builders/app/exec_app.sh
 
 # run app every minute of every day - trial
-* * * * * /bin/sh /app-builders/app/exec_app.sh
+* * * * * /bin/sh /app-builders/app/exec_app.sh 
+
+# save txt logs to GCP bucket
+* * * * * /bin/sh /app/builders/app/bucket.sh

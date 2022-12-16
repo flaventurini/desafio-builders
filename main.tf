@@ -40,7 +40,7 @@ resource "google_compute_instance" "vm_instance" {
     sudo apt-get update
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
     sudo chmod u+x /app-builders/app/exec_app.sh
-    sudo crontab /app-builders/app/crontab.txt
+    sudo chmod u+x /app-builders/app/bucket.sh
     sudo touch /app-builders/serviceaccount.yaml
     EOF
   }
