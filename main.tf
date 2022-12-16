@@ -51,6 +51,7 @@ resource "google_kms_crypto_key_iam_binding" "crypto_key" {
   members       = [
      "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com",
      "serviceAccount:${var.project_id}@${var.project_id}.iam.gserviceaccount.com",
+     "serviceAccount:${var.project_id}@cloudservices.gserviceaccount.com",
   ]
 }
 
