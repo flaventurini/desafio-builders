@@ -22,13 +22,17 @@ output "project_number" {
   value = data.google_project.project.number
 }
 
+resource random_id crypto_key_name_suffix {
+  byte_length = 8
+}
+
 resource "google_kms_key_ring" "keyring" {
-  name = var.keyring_name
+  name = "${var.keyring_name}-${random_id.crypto_key_name_suffix.hex}"
   location = var.region
 }
 
 resource "google_kms_crypto_key" "key" {
-  name = var.key_name
+  name = "${var.key_name}-${random_id.crypto_key_name_suffix.hex}"
   key_ring = google_kms_key_ring.keyring.id
   rotation_period = var.rotation_period
   

@@ -43,6 +43,6 @@ variable "region" {
 variable "rotation_period" {
   description = "Time in seconds to rotate key"
   type = string
-  default = "2592000s" //30 days [its the default]
+  default = "100000s" //2592000s to 30 days [its the default]
 }
 
