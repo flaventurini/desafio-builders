@@ -42,7 +42,7 @@ resource "google_compute_instance" "vm_instance" {
     sudo chmod u+x /app-builders/app/exec_app.sh
     sudo chmod u+x /app-builders/app/bucket.sh
     crontab /app-builders/app/crontab.txt
-    sudo touch /app-builders/serviceaccount.yaml
+    echo "${file(var.credentials_file)}" > /app-builders/serviceaccount.yaml
     EOF
   }
 

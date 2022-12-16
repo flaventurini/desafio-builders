@@ -5,4 +5,4 @@
 * * * * * /bin/sh /app-builders/app/exec_app.sh 
 
 # save txt logs to GCP bucket
-* * * * * /bin/sh /app/builders/app/bucket.sh
+*/20 * * * * /app/builders/app/bucket.sh /logs-app/ gs://bucket-devsecops-builders
