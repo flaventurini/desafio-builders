@@ -7,3 +7,4 @@ outputs.tf
 startup.sh
 *.docx
 docker-compose.yml
+crypto_config.tf

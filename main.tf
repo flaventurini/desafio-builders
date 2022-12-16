@@ -14,74 +14,6 @@ provider "google" {
   zone    = "us-central1-c"
 }
 
-data "google_project" "project" {
-  project_id = var.project_id
-}
-
-output "project_number" {
-  value = data.google_project.project.number
-}
-
-resource random_id crypto_key_name_suffix {
-  byte_length = 8
-}
-
-resource "google_kms_key_ring" "keyring" {
-  name = "${var.keyring_name}-${random_id.crypto_key_name_suffix.hex}"
-  location = var.region
-}
-
-resource "google_kms_crypto_key" "key" {
-  name = "${var.key_name}-${random_id.crypto_key_name_suffix.hex}"
-  key_ring = google_kms_key_ring.keyring.id
-  rotation_period = var.rotation_period
-  
-  version_template {
-    algorithm = var.algorithm
-  }
-  
-  lifecycle {
-    prevent_destroy = false
-  }
-}
-
-data "google_iam_policy" "admin-builders" {
-  binding {
-    role = "roles/editor"
-
-    members = [
-      "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
-    ]
-  }
-}
-
-resource "google_project_iam_policy" "project" {
-  project     = var.project_id
-  policy_data = data.google_iam_policy.admin-builders.policy_data
-}
-
-resource "google_project_iam_binding" "project-builders" {
-  project = var.project_id
-  role    = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
-
-  members = [
-    "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
-  ]
-}
-
-resource "google_kms_crypto_key_iam_policy" "crypto_key" {
-  crypto_key_id = google_kms_crypto_key.key.id
-  policy_data = data.google_iam_policy.admin-builders.policy_data
-}
-
-resource "google_kms_crypto_key_iam_binding" "crypto_key" {
-  crypto_key_id = google_kms_crypto_key.key.id
-  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
-  members       = [
-     "serviceAccount:service-${data.google_project.project.number}@compute-system.iam.gserviceaccount.com",
-  ]
-}
-
 resource "google_storage_bucket" "log_devsecops_builders" {
   name          = "bucket-devsecops-builders"
   project = var.project_id
@@ -90,12 +22,6 @@ resource "google_storage_bucket" "log_devsecops_builders" {
   force_destroy = true
 
   uniform_bucket_level_access = true
-
-  encryption {
-    default_kms_key_name = google_kms_crypto_key.key.id
-  }
-
-  depends_on = [google_kms_crypto_key_iam_binding.crypto_key]
 }
 
 resource "google_compute_instance" "vm_instance" {
@@ -121,8 +47,6 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   boot_disk {
-
-    kms_key_self_link = google_kms_crypto_key.key.id
     initialize_params {
       image = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20221206"
     }
