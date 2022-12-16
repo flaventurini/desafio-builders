@@ -16,7 +16,6 @@ provider "google" {
 
 data "google_project" "project" {
   project_id = var.project_id
-  number = var.project_number
 }
 
 output "project_number" {
@@ -24,7 +23,7 @@ output "project_number" {
 }
 
 resource "google_kms_key_ring" "keyring" {
-  name = var.ring_name
+  name = var.keyring_name
   location = var.region
 }
 
