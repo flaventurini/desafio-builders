@@ -4,7 +4,6 @@ cloudbuild.yaml
 outputs.tf
 /.terraform
 /deploy-gitlab
-startup.sh
 *.docx
 docker-compose.yml
 crypto_config.tf
